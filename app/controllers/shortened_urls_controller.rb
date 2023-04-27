@@ -26,8 +26,8 @@ class ShortenedUrlsController < ApplicationController
         path = (0...6).map { url_characters.sample }.join
     
         # Check if the path already exists in the database
-        existing_url = Url.find_by(short_url: "short.li/#{path}")
-        return "short.li/#{path}" unless existing_url
+        existing_url = ShortenedUrl.find_by(short_url: "short.li/#{path}")
+        return "https://short.li/#{path}" unless existing_url
     
         # If the path already exists, generate a new path and check again
       end

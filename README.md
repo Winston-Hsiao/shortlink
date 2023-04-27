@@ -1,7 +1,9 @@
 # shortlink
 By Winston Hsiao
+
 April 2023
-Built and Tested with Ruby v3.2.2 and Rails v7.0.4.3 on a 2021 M1 MacBook Pro
+
+Built and Tested with Ruby v3.2.2 and Rails v7.0.4.3
 
 ## Setup/How to Run
 Instructions for Mac
@@ -22,13 +24,13 @@ open [Postman's Desktop Agent](https://www.postman.com/downloads/postman-agent/)
 Send a POST request to encode endpoint `http://localhost:3000/encode` with a JSON body containing a link to be shortened. Example below:
 ```
 {
-	"original_url": "https://www.youtube.com"
+	"original_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley",
 }
 ```
 A JSON response containing the shortened URL is returned. Example below:
 ```
 {
-	"short_url": "http://short.li/IcRLmw"
+	short_url": "https://short.li/S3IoLi""
 }
 ```
 
@@ -36,7 +38,7 @@ A JSON response containing the shortened URL is returned. Example below:
 Send a POST request to decode endpoint `http://localhost:3000/decode` with a JSON body containing shortened URL. Example below:
 ```
 {
-	"short_url": "http://short.li/IcRLmw"
+	"short_url": "https://short.li/S3IoLi"
 }
 ```
 
@@ -100,3 +102,6 @@ Below is an example entry in the database.
   created_at: Thu, 27 Apr 2023 20:13:58.166492000 UTC +00:00,           
   updated_at: Thu, 27 Apr 2023 20:13:58.166492000 UTC +00:00
   ```
+
+### Notes/Changes
+In commit 4, changed prefix to "https://" from "http://", first few generated short links have "http://" prefix.
