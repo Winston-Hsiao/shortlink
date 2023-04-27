@@ -98,10 +98,10 @@ Below is an example entry in the database.
 ```
   id: 1,                                                                
   original_url: "https://www.youtube.com",                              
-  short_url: "http://short.li/IcRLmw",                                  
+  short_url: "https://short.li/IcRLmw",                                  
   created_at: Thu, 27 Apr 2023 20:13:58.166492000 UTC +00:00,           
   updated_at: Thu, 27 Apr 2023 20:13:58.166492000 UTC +00:00
   ```
 
 ### Notes/Changes
-In commit 4, changed prefix to "https://" from "http://", first few generated short links have "http://" prefix.
+In commit 4, changed prefix to "https://" from "http://"
