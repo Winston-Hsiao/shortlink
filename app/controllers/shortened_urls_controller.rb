@@ -16,13 +16,20 @@ class ShortenedUrlsController < ApplicationController
     end
     
     private
-    
-    # Generate a random short URL
+    # Generate a random short URL ( example: short.li/AbcDeF )
     def generate_short_url
-      # Generate a random string of 6 characters for end of short URL 
-      # Examples: short.li/AbcDEF
+      # Characters to choose from for path generation
       url_characters = [('a'..'z'), ('A'..'Z'), (0..9)].map(&:to_a).flatten
-      path = (0...6).map { url_characters.sample }.join
-      "http://short.li/#{path}"
+      
+      loop do
+        # Generate a random path of 6 characters for the short URL 
+        path = (0...6).map { url_characters.sample }.join
+    
+        # Check if the path already exists in the database
+        existing_url = Url.find_by(short_url: "short.li/#{path}")
+        return "short.li/#{path}" unless existing_url
+    
+        # If the path already exists, generate a new path and check again
+      end
     end
   end

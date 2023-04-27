@@ -9,8 +9,9 @@ Instructions for Mac
 	- run `ruby -v` and `rails -v` in terminal to check versions.
 	- [Link to Ruby on Rails Setup](https://guides.rubyonrails.org/v5.1/getting_started.html)
 2. Clone the repository
-3. run `rails server` to run shortlink on `http://localhost:3000`
-4. Post requests can then be made via an API testing platform like [Postman](https://www.postman.com/)
+3. Navigate to shortlink directory
+4. run `rails server` to run shortlink on `http://localhost:3000`
+5. Post requests can then be made via an API testing platform like [Postman](https://www.postman.com/)
 
 
 ## Testing
@@ -48,7 +49,7 @@ Reasoning:
 - If a user wants to create a shortened link they might want to track the number of clicks on that link. This value would be stored with the ShortenedURL object containing the original_url and the unique short_url. It would not make sense to prevent a user from creating a new short link for an original link that has already been shortened (would cause overlap and issues with analytics tracking if implemented)
 
 **Duplicate Short Url Generation**
-- Currently as of the current implementation it is possible (but highly unlikely) for an identical short link to be generated.
+- Implementation will not allow for duplicate short URL's to be generated. If by chance during function runtime a short link is generated that matches an existing short link in the database, it will not be returned, and a new link will be generated with a different path.
 
 **Invalid Short Url to be decoded**
 - POST requests sent to the decode endpoint with a short link that does not exist in the database will return the below error.
@@ -89,6 +90,7 @@ The database consists of ShortenedURL objects containing 2 string entries "origi
 To view URL's stored in the database:
 1. run `rails console`
 2. once in the Rails console run `ShortenedURL.all` to return all ShortenedURL objects
+3. run `exit` to exit the rails console.
 
 Below is an example entry in the database.
 ```
