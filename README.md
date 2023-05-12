@@ -17,7 +17,7 @@ Instructions for Mac
 5. Post requests can then be made via an API testing platform like [Postman](https://www.postman.com/)
 
 
-## Testing
+## Testing/Running
 While application is running on `http://localhost:3000` by running  `rails server`,
 open [Postman's Desktop Agent](https://www.postman.com/downloads/postman-agent/) and test by sending post requests to encode and decode endpoints.
 
@@ -44,8 +44,9 @@ Send a POST request to decode endpoint `http://localhost:3000/decode` with a JSO
 ```
 
 
-### Tests performed/Design Choices
-**Existing Original URL**
+## Tests performed/Design Choices
+
+### Existing Original URL
 
 Expected behavior: 
 - When making a POST request using an original url identical to one existing in the database, a new short link will be returned every time.
@@ -53,7 +54,7 @@ Expected behavior:
 Reasoning: 
 - If a user wants to create a shortened link they might want to track the number of clicks on that link. This value would be stored with the ShortenedURL object containing the original_url and the unique short_url. It would not make sense to prevent a user from creating a new short link for an original link that has already been shortened (would cause overlap and issues with analytics tracking if implemented)
 
-**Short Original URL**
+### Short Original URL
 
 Original URL has less than 24 characters.
 
@@ -63,7 +64,8 @@ Expected behavior:
 Reasoning:
 - If original URL has less than 24 characters, the short link generated is obsolete, as short links are 23 characters long. This is because the service currently acts purely as a link shortener. If the aim of the service is to produce unique links (that happen to be short) and track clicks/analytics then this restriction is not as important, as data might want to be recorded on a link that is short, and generating the short link is helpful for rerouting and tracking traffic.
 
-**Path Generation**
+### Path Generation
+
 Implementation:
 - The unique 6 character path is generated from characters (a-z), (A-Z), (0-9), (26 + 26 + 10 = 62 characters), we allow duplicates so 62 possible character for each spot in the 6 character path, so there are 62^6 = 56,800,235,584 possible unique URL paths.
 
@@ -72,15 +74,17 @@ Design Choices/Trade-offs:
 - Having a shorter character length of 4 or 5 would help make the link shorter overall helping achieve one of the primary purposes of having a shortened link (convenience, easy to share/remember).
 - In terms of data/storage each character takes up 1 byte assuming standard 8 bit ASCII character encoding. Assuming a 5 character path instead of 6, saving 1 byte (1 less character) for 10 million short links, saves 10 million bytes equivalent to (10MB / 0.01GB) in saved storage making the storage saved essentially negligble. While saving a minimal amount of storage, a 5 character path would result in a significantly smaller amount of unique URL paths. 62^5 = 916,132,832 possible unique URL paths. ~56 billion vs ~916 million.
 - Additionally, storage of the original long URL would have a much large impact relatively speaking as these original links are likely to have many more characters on average.
+- Another option would be to allow for shorter path sizes, ranging from combinations of 3-6 characters rather than only combinations of 6 characters. This would allow for more total possible combinations, and save space relatively speaking (still negligble).
 
-**Duplicate Short Url Generation**
+### Duplicate Short Url Generation
+
 Expected behavior:
 - Implementation will not allow for duplicate short URL's to be generated. If by chance during function runtime a short link is generated that matches an existing short link in the database, it will not be returned, and a new link will be generated with a different path.
 
 Reasoning:
 - short_url's act as a key for searching the database for the original_url value that is associated with it. Duplicate short_url's would cause issues and if tracking/analytics were added, it would not be possible to distinguish objects (links) apart from eachother amongst other duplicate entry issues.
 
-**Invalid Short Url to be decoded**
+### Invalid Short Url to be decoded
 
 Expected behavior:
 - POST requests sent to the decode endpoint with a short link that does not exist in the database will return the below error.
