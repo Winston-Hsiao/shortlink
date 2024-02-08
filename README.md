@@ -3,6 +3,8 @@ By Winston Hsiao
 
 April/May 2023
 
+Yello.co Software Engineer Intern - Take Home
+
 Built and Tested with Ruby v3.2.2 and Rails v7.0.4.3
 
 
